@@ -1,0 +1,34 @@
+description: This is my tiny playground what I had to develop as a homework during my studies at University of Latvia in a CompSC course. Nothing much here mostly University related stuff, including some parts of software code and some notes and advices to other LU students to make their life less miserable while they are learning on how to develop web software via modern Internet technologies.
+
+author:
+  name: Toms VEILANDS
+  email: veilands@gmail.com
+  nick: tomsys
+  profiles:
+        - label: facebook
+          url: https://www.facebook.com/veilands
+        - label: flickr
+          url: http://www.flickr.com/photos/veilands
+        - label: twitter
+          url: https://twitter.com/veilands
+        - label: YouTube
+          url: https://www.youtube.com/user/veiland
+
+name: Toms VEILANDS (tv10012)
+markdown: redcarpet
+pygments: true
+permalink: pretty
+#auto: true
+#url: http://tomsys.us
+baseurl: http://tomsys.us
+#include: ['.htaccess']
+googleanalytics:
+    account: UA-326059-39
+safe: true
+lsi: true
+encoding: UTF_8
+relative_permalinks: false
+#production_url: http://tomsys.us
+atom_path : /atom.xml
+rss_path : /rss.xml
+exclude: [build.sh, sass.sh]

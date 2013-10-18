@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.2//EN" "http://www.openmobilealliance.org/tech/DTD/xhtml-mobile12.dtd">
+<html>
+    <head>
+        {% if (page.url == "/404.html") or (page.url == "/403.html") %}
+            <meta http-equiv="refresh" content="10; url=/">
+        {% endif %}
+        <meta http-equiv="Cache-Control" content="max-age=300" />
+        <meta http-equiv="Content-Type" content="application/xhtml+xml" /> 
+        <meta charset="utf-8">
+ 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="author" content="{{site.author.name}}">
+        <meta name="description" content="{{site.description}}">
+        <base href="{{ site.baseurl }}" />
+        <title>{{ page.title }}</title>
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/css/i.css" />
+       
+        <!-- Adding some fonts to make it look different -->
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Arimo">
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700|Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
+    </head>
+    <body class="wrap wider">
+        <header>
+            <div class="grid">
+                <div class="unit center-on-mobile half site-title">
+                    <h2 class="">&raquo; Toms Veilands</h2>
+                    <p class="">Software development is pure fun for everyone</p>
+                </div>
+                <div class="unit half nav" role="navigation">
+                    <br/>
+                    <ul>
+                        <li><a href="/">home</a></li>
+                        <li><a href="/about">about</a></li>
+                        <li><a href="/contact">contacts</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div class="grid">
+                <div class="unit whole main">
+                {{ content }}
+                </div>
+            </div>
+        </section>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-326059-39', 'tomsys.us');
+          ga('send', 'pageview');
+
+        </script>
+    </body>
+</html>
