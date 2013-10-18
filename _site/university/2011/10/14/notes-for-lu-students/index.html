@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.2//EN" "http://www.openmobilealliance.org/tech/DTD/xhtml-mobile12.dtd">
+<html>
+    <head>
+        
+        <meta http-equiv="Cache-Control" content="max-age=300" />
+        <meta http-equiv="Content-Type" content="application/xhtml+xml" /> 
+        <meta charset="utf-8">
+ 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="author" content="Toms VEILANDS">
+        <meta name="description" content="This is my tiny playground what I had to develop as a homework during my studies at University of Latvia in a CompSC course. Nothing much here mostly University related stuff, including some parts of software code and some notes and advices to other LU students to make their life less miserable while they are learning on how to develop web software via modern Internet technologies.">
+        <base href="http://tomsys.us" />
+        <title>Padoms visiem Latvijas Universitātes studentiem</title>
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/css/i.css" />
+       
+        <!-- Adding some fonts to make it look different -->
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Arimo">
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700|Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
+    </head>
+    <body class="wrap wider">
+        <header>
+            <div class="grid">
+                <div class="unit center-on-mobile half site-title">
+                    <h2 class="">&raquo; Toms Veilands</h2>
+                    <p class="">Software development is pure fun for everyone</p>
+                </div>
+                <div class="unit half nav" role="navigation">
+                    <br/>
+                    <ul>
+                        <li><a href="/">home</a></li>
+                        <li><a href="/about">about</a></li>
+                        <li><a href="/contact">contacts</a></li>
+                        <li><a href="https://github.com/veilands/">git</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div class="grid">
+                <div class="unit whole main">
+                <div class="post">
+<h1 class="post-title">Padoms visiem Latvijas Universitātes studentiem</h1>
+<span class="meta">14 Oct 2011</span>
+<p>Visiem <a href="http://www.lu.lv/eng">LU</a> studentiem ir piešķirts <a href="http://home.lu.lv/">serveris</a> uz kura studenti var brīvi un pašrocīgi izmitināt statiskas HTML lapas. Uz servera, priekš studentiem nav nekā cita, kā tikai FTP un HTTP, jebkāda veida skriptēšanas iespējas ir liegtas, izņemot Server Side Include, bet par šo iespēju mums diemžēl neviens neko nepastāstīja. Lai pieslēgtos pie servera ir jāizmanto savs <a href="http://luis.lu.lv">luis</a> autentifikācijas vārds (stud_apl_nr) un parole. Starp citu, FTP servera adrese ir <code>apse.lanet.lv</code>. Pirms pāris gadiem man tas likās gaužām vecmodīgi, ka <a href="http://www.lu.lv/eng">LU</a> studentiem netiek nodrošināts super moderns serveris ar vismaz <code>PHP</code> preprocesoru, bet šodien, kad pie rokas ir tāds nezvērs kā <a href="http://jekyllrb.com">Jekyll</a> man pilnībā pietiek ar šo pašu veco mīļo serverīti, jo tas ir drošāks pret ievainojamībām, nekā tie serveri uz kuriem lietotājiem ir atļauts izmantot dažādas skriptēšanas valodas un arī salīdzinoši atrāks statisku lapu pasniegšanā, jo nekas nav jārēķina, ņem gatavu failu un pa HTTP pūš projām pieprasītājam.</p>
+
+<p>Ja nu gadījumā kādam interesē, tad par šo serverīti man izdevās iegūt sekojošu papildus informāciju, izantojot attālinātās piekļuves termināla konsoli. Šis uzticamais un ilggadējais serveris izrādās ir pietiekami jaudīgs vēl šodien, pēc saviem garajiem darba gadiem, lai pilnībā veiktu savas ikdienas funkcijas, tas nozīmē tikai to, ka uz <code>IBM</code> un <code>AIX</code> mēs varam pilnībā paļauties un uzticēties, jo šis serveris ir gods godam pildījis tam uzticētās funkcijas un stabīli darbojies jau visus pēdējos 10 gadus =]</p>
+
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> uname -a
+<span class="go">AIX apse 3 5 000BFC0D4C00</span>
+<span class="gp">$</span> oslevel -r
+<span class="go">5300-08</span>
+<span class="gp">$</span> prtconf
+<span class="go">System Model: IBM,7028-6C1</span>
+<span class="go">Machine Serial Number: 10BFC0D</span>
+<span class="go">Processor Type: PowerPC_POWER3</span>
+<span class="go">Processor Implementation Mode: POWER 630</span>
+<span class="go">Processor Version: PV_630</span>
+<span class="go">Number Of Processors: 1</span>
+<span class="go">Processor Clock Speed: 375 MHz</span>
+<span class="go">CPU Type: 64-bit</span>
+<span class="go">Kernel Type: 32-bit</span>
+<span class="go">LPAR Info: -1 NULL</span>
+<span class="go">Memory Size: 512 MB</span>
+<span class="go">Good Memory Size: 512 MB</span>
+<span class="go">Platform Firmware level: Not Available</span>
+<span class="go">Firmware Version: IBM,CLT05208</span>
+<span class="go">Console Login: enable</span>
+<span class="go">Auto Restart: true</span>
+<span class="go">Full Core: false</span>
+<span class="go"> </span>
+<span class="go">Network Information</span>
+<span class="go">    Host Name: apse</span>
+<span class="go">    IP Address: 195.13.129.120</span>
+<span class="go">    Sub Netmask: 255.255.255.0</span>
+<span class="go">    Gateway: 195.13.129.254</span>
+<span class="go">    Name Server: 195.13.129.5</span>
+<span class="go">    Domain Name: lanet.lv</span>
+<span class="go"> </span>
+<span class="go">Paging Space Information</span>
+<span class="go">    Total Paging Space: 1024MB</span>
+<span class="go">    Percent Used: 6%</span>
+<span class="go"> </span>
+<span class="go">INSTALLED RESOURCE LIST</span>
+
+<span class="go">The following resources are installed on the machine.</span>
+<span class="go">+/- = Added or deleted from Resource List.</span>
+<span class="go">*   = Diagnostic support not available.</span>
+<span class="go">    </span>
+<span class="go">  Model Architecture: chrp</span>
+<span class="go">  Model Implementation: Multiple Processor, PCI bus</span>
+<span class="go">    </span>
+<span class="go">+ sys0                       System Object</span>
+<span class="go">+ sysplanar0                 System Planar</span>
+<span class="go">* pci1             P1        PCI Bus</span>
+<span class="go">* pci0             P1        PCI Bus</span>
+<span class="go">* isa0             P1        ISA Bus</span>
+<span class="go">+ fda0             P1/D1     Standard I/O Diskette Adapter</span>
+<span class="go">+ fd0              P1-D1     Diskette Drive</span>
+<span class="go">* siokma0          P1/K1     Keyboard/Mouse Adapter</span>
+<span class="go">+ sioka0           P1/K1     Keyboard Adapter</span>
+<span class="go">+ sioma0           P1/K1     Mouse Adapter</span>
+<span class="go">+ ppa0             P1/R1     CHRP IEEE1284 (ECP) Parallel Port Adapter</span>
+<span class="go">+ sa0              P1/S1     Standard I/O Serial Port</span>
+<span class="go">+ tty0             P1/S1-L0  Asynchronous Terminal</span>
+<span class="go">+ sa1              P1/S2     Standard I/O Serial Port</span>
+<span class="go">+ sa2              P1/S3     Standard I/O Serial Port</span>
+<span class="go">* ide0             P1/Q1     ATA/IDE Controller Device</span>
+<span class="go">+ cd0              P1/Q1-L0  IDE CD-ROM Drive I (650 MB)</span>
+<span class="go">+ scsi0            P1/Z1     Wide/Ultra-3 SCSI I/O Controller</span>
+<span class="go">+ hdisk0           P1/Z1-A0  16 Bit LVD SCSI Disk Drive (18200 MB)</span>
+<span class="go">+ hdisk1           P1/Z1-A1  16 Bit LVD SCSI Disk Drive (18200 MB)</span>
+<span class="go">+ safte0           P1/Z1-A9  SCSI Accessed Fault-Tolerant Enclosure Device</span>
+<span class="go">+ scsi1            P1/Z2     Wide/Ultra-3 SCSI I/O Controller</span>
+<span class="go">+ ent0             P1/E1     IBM 10/100 Mbps Ethernet PCI Adapter (23100020)</span>
+<span class="go">+ ent1             P1/E2     IBM 10/100 Mbps Ethernet PCI Adapter (23100020)</span>
+<span class="go">+ L2cache0                   L2 Cache</span>
+<span class="go">+ mem0                       Memory</span>
+<span class="go">+ proc0            P1-C1     Processor</span>
+</code></pre></div>
+
+<p>Fakts, ka tikai nedaudzi <a href="http://www.lu.lv/eng">LU</a> studenti izmanto šo lielisko iespēju, lai izmitinātu savas personīgās, statiskās tīmekļa vietnes ir nedaudz apbēdinošs, laikam jau šis mīļais, labais serverītis tiks reiz norakstīts un izslēgts, bet pagaidām, vēl viss notiek un es iedrošinu jūs visus <a href="http://www.lu.lv/eng">LU</a> studentus pamēģināt un izmitināt savu personīgo tīmekļa vietni, kurā variet apkopot un uzgalbāt vērtīgu informāciju par studiju laikā gūtjām zināšanām. Tīmekļa vietnes publiskā adrese būs <code>http://home.lu.lv/~stud_apl_nr</code> manā gadījumā tas ir <code>http://home.lu.lv/~tv10012</code></p>
+
+<p>Lai izmitinātu savu tīmekļa vietni uz servera <code>apse.lanet.lv</code> lietotāja mājas direktorijā ir jāzveido jauna direktorija ar nosaukumu <code>public_html</code> un šai direktorijā ir jāievieto savas tīmekļa vietnes saturs, lai to izdarītu ir nepieciešams izmantot kādu mūsdienīgu FTP klientu, kas ļauj pieslēgties pie servera pa <code>SCP</code> protokolu, es rekomendēju <a href="http://winscp.net">WinSCP</a>, ko var brīvi lejupielādēt un darbināt uz savas darba stacijas. Tas arī ir viss, ko es vēlējos pateikt tiem <a href="http://www.lu.lv/eng">LU</a> studentiem kuri vai nu ir aizmirsuši vai vēl nezina par šo lielisko iespēju, kā izmitināt personīgās studentu tīmekļa vietnes uz <a href="http://www.lu.lv/eng">LU</a> publiskā servera.</p>
+
+<p>p.s.</p>
+
+<p>Papildus iespēja, ko nodrošina šis serveris ir iespēja izmantot epasta pāradresāciju, jo katram <a href="http://www.lu.lv/eng">LU</a> studentam ir arī piešķirta viņam unikālā epasta adrese <code>stud_apl_nr@lu.lv</code>, bet ne visi studenti šo epasta adresi izmanto un bieži vien pat nezin, ka šāda adrese eksistē, savukārt augšupielādējot uz serveri, lietotāja mājas direktorijā failu ar nosaukumu <code>.forward</code> un faila saturā ierakstot savu epasta adresi, visi ienākošie epasti tiks automātiski pārsūtīti uz tavu norādīto epastu.</p>
+
+<p>Vēlu veiksmi, lai Tev viss labi izdodās,</br>
+Toms</p>
+
+</div>
+
+                </div>
+            </div>
+        </section>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-326059-39', 'tomsys.us');
+          ga('send', 'pageview');
+
+        </script>
+    </body>
+</html>

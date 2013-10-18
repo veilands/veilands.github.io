@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+        <title></title>
+        <description> - Toms VEILANDS</description>
+        <link>/rss.xml</link>
+        <link></link>
+        <lastBuildDate>2013-10-18T12:00:02+00:00</lastBuildDate>
+        <pubDate>2013-10-18T12:00:02+00:00</pubDate>
+        <ttl>1800</ttl>
+
+
+        <item>
+                <title>Primitīvs Lietotāja Autentifikācijas Piemērs</title>
+                <description>&lt;p&gt;Vienā no mācību priekšmetiem mums bija jārealizē uzdevums, kur tiek veikta lietotāja autentifikācija un pie sekmīga rezultāta lietotājs tiek autorizēts piekļūt tīmekļa vietnes sadaļai, kas ir paredzēta tikai autentificētiem lietotājiem, piemēram vietnes satura administratoriem. Tā kā mani kursa biedri bija aktīvi uzdodot jautājumus par to, kā tas viss notiek un strādā, tad zemāk ir vienkāršots &lt;code&gt;PHP&lt;/code&gt; koda paraugs, kurus vari pārskatīt un brīvi izmantot savām vajadzībām.&lt;/p&gt;
+
+&lt;p&gt;Kopumā es izveidoju trīs atsevišķus failus un no tiem arī sastāv šis vienkāršotais autentifikācijas paraugs, pirmais fails &lt;code&gt;index.php&lt;/code&gt;, ir vietnes indeksa fails, kas tiek izpildīts tai brīdi, kad lieotājs pieslēdzās tīmekļa vietnei, šis skripts pārbauda vai lietotājs ir autorizēts piekļūt vietnes administratīvajai sadaļa, vērtības tiek ņemta no globālā mainīgā &lt;code&gt;$_SESSION[&amp;#39;authorized&amp;#39;]&lt;/code&gt;, ja šī vērtība ir uzstādīta, tad tiek iekļauta administratīvā sadaļa &lt;code&gt;admin_form.php&lt;/code&gt; pretējā gadījumā, ja lietotājs nav autorizēts piekļūt administratīvajai sadaļai tiek ielādēta lietotāju autentifikācijas forma no faila &lt;code&gt;loginform.html&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Ja rūpīgāk aplūkosi &lt;code&gt;admin_form.php&lt;/code&gt; tad pamanīsi, ka to skriptu var izsaukt arī pa tiešo no url un gadījumā, ja lietotājam nebūs piekļuves tiesības viņš tiks pārsūtīts uz lietotāja autentifikācijas formu uz &lt;code&gt;index.php&lt;/code&gt; skriptu.&lt;/p&gt;
+
+&lt;p&gt;Šis vienkāršotais piemērs ir tikai priekš mācību nolūkiem un produkcijas vidē es nekādā ziņā to neieteiktu izmantot =]&lt;/p&gt;
+
+&lt;p&gt;faila &lt;code&gt;index.php&lt;/code&gt; saturs&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;session_start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;logout&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;session_destroy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Location: index.php&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;CheckPass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;user&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;md5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;098f6bcd4621d373cade4e832627b4f6&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// password ir test&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_SESSION&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;authorized&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;admin_form.php&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;trim&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$password&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;trim&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;password&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$_SESSION&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;authorized&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;CheckPass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_SESSION&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;authorized&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nv&quot;&gt;$_SESSION&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Location: index.php&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;isset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;submitted&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;nv&quot;&gt;$_SESSION&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;zinja&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Lietotāja autentifikācija ir nesekmīga!&amp;lt;br/&amp;gt;&amp;lt;br/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;s2&quot;&gt;                            Lūdzu pārbaudi lietotāja vārdu un paroli, tad mēģini vēlreiz!&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;nv&quot;&gt;$_SESSION&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;zinja&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Lūdzu ievadiet savu lietotāja vārdu un paroli&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;           
+        &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Content-type: text/html; charset=utf-8&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;loginform.html&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;faila &lt;code&gt;loginform.html&lt;/code&gt; saturs&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;utf-8&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Lietotāja autentifikācijas forma&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;text-align:center;margin:auto;padding:2em;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php print $_SESSION[&amp;#39;zinja&amp;#39;]; ?&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;margin:auto;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;POST&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;accept-charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;UTF-8&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;index.php&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;width:38em;margin:auto;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;fieldset&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;legend&amp;gt;&lt;/span&gt;Autentifikācija&lt;span class=&quot;nt&quot;&gt;&amp;lt;/legend&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;hidden&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;submitted&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;submitted&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;1&amp;#39;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;text-align:right;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                    &lt;span class=&quot;nt&quot;&gt;&amp;lt;label&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;for=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;username&amp;#39;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Lietotājs:&lt;span class=&quot;nt&quot;&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
+                    &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;text&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;username&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;username&amp;#39;&lt;/span&gt;  &lt;span class=&quot;na&quot;&gt;maxlength=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;50&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+                    &lt;span class=&quot;nt&quot;&gt;&amp;lt;label&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;for=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;password&amp;#39;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Parole:&lt;span class=&quot;nt&quot;&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
+                    &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;password&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;password&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;password&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;maxlength=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;50&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;sender&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;submit&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;Submit&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;Nosūtīt&amp;#39;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/fieldset&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;faila &lt;code&gt;admin_form.php&lt;/code&gt; saturs&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;session_start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_SESSION&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;authorized&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Location: index.php&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Content-type: text/html; charset=utf-8&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;text/html; charset=UTF-8&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;http-equiv=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Content-Type&amp;quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Autorizēta lietotāja sadaļa&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;stylesheet&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;style.css&amp;quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Sveiks lietotāj &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php print $_SESSION[&amp;#39;username&amp;#39;]; ?&amp;gt;&lt;/span&gt;, 
+                laipni lūdzam vietnes administratīvajā sadaļā.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Šai vietā ir jāievieto saturs, kas ir paredzēts priekš autentificētiem lietotājiem.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;hr/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;text-align:right;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;f2&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;POST&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;accept-charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;UTF-8&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;index.php&amp;#39;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;label&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;for=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;logout&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;pārtraukt autorizāciju:&lt;span class=&quot;nt&quot;&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;submit&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;logout&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;Logout&amp;#39;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+</description>
+                <link>/university/2011/10/16/autentifikacija/</link>
+                <guid>/university/2011/10/16/autentifikacija</guid>
+                <pubDate>2011-10-16T10:10:10+00:00</pubDate>
+        </item>
+
+        <item>
+                <title>Darba vide priekš tīmekļa vietnes attālinātas rediģēšanas</title>
+                <description>&lt;p&gt;Pirms mesties un izpildīt kādu no laboratorijas darbiem, lai kurā mācību priekšmetā tas arī nebūtu, es rekomendēju izmantot katram darbam atbilstošākus instrumentus, piemēram, ja Tev pēc katra faila rediģēšanas tas vēl ir atsevišķi jāpārsūta caur FTP klientu uz serveri, tas kopumā aizņems papildus laiku un pareizi organizējot savu darba vidi ir iespējams šo lietu nedaudz automatizēt, tas neprasīs vienā reizē vairāk kā 10 minūtes, lai sagatavotu darba vidi, savukārt nākotnē būs ērtāk un patīkamāk strādāt, veidojot tīmekļa vietnes un papildinot tās ar jaunu saturu.&lt;/p&gt;
+
+&lt;p&gt;Ņemot vērā darba specifiku un visus tos mācību priekšmetus, kuros mums ir nepieciešams izveidot failus un nogādāt tos līdz serverim es gribētu pievērst Tavu uzmanību divām lietotnēm. Pirmā ir &lt;code&gt;Notepad++&lt;/code&gt;, kas ir paredzēta ērtai tekstu rediģēšanas ar sintakses vizuālu pasvītrošanu un otrā lietotne ir &lt;code&gt;WinSCP&lt;/code&gt;, kas ir mūsdienīgs failu apmaiņas klients, ar kura palīdzību var lejupielādēt un augšupielādēt tīmekļa vietnes failus uz serveriem, kuri atbalsta dažādus failu apmaiņas protokolus, tādus kā: &lt;code&gt;FTP&lt;/code&gt;, &lt;code&gt;SFTP&lt;/code&gt; un &lt;code&gt;SCP&lt;/code&gt;.
+&lt;/br&gt;
+&lt;img src=&quot;/images/wscp.png&quot; alt=&quot;WinSCP Konfigurācijas Parametri&quot; title=&quot;WinSCP Konfigurācijas Parametri&quot; style=&quot;float:right; padding:0 0 0 1em;&quot;/&gt;
+&lt;/br&gt;
+&lt;code&gt;Notepad++&lt;/code&gt; ir lejupielādējams no šīs tīmekļa vietnes &lt;a href=&quot;http://notepad-plus-plus.org/download/&quot;&gt;notepad-plus-plus.org&lt;/a&gt; un savukārt &lt;code&gt;WinSCP&lt;/code&gt; ir lejupielādējams no šīs tīmekļa vietnes &lt;a href=&quot;http://winscp.net/eng/download.php&quot;&gt;WinSCP.net&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Šeit nav pareizā secība, kādā šie lietojumi ir jāuzstāda uz Tavas darba stacijas, galvenais šos abus letojumus ir sekmīgi lejupielādēt un uzstādīt līdz galam, tad atliks veikt nelielu &lt;code&gt;WinSCP&lt;/code&gt; konfigurācijas papildināšanu ar jauniem parametriem un Tu varēsi sākt taupīt laiku uz izmainīto failu augšupielādēšanu.&lt;/p&gt;
+
+&lt;p&gt;Pēc abu lietojumu sekmīgas uzstādīšanas ir nepieciešams palaist lietojumu &lt;code&gt;WinSCP&lt;/code&gt; un piespiest trīs taustiņu kombināciju &lt;code&gt;Ctr+Alt+P&lt;/code&gt;, kas izsauks labajā pusē redzamo logu.&lt;/p&gt;
+
+&lt;p&gt;Šai logā ir nepieciešams ieklikšķināt uz sadaļas, kreisajā kolonnā &lt;code&gt;Editors&lt;/code&gt; un tālāk ir jāklikšķina uz pogas &lt;code&gt;Add ...&lt;/code&gt; kas ļaus pievienot jaunu teksta redaktoru šim sarakstam, šeit ir nepieciešams norādīt, ka vēlies izmantot tieši &lt;code&gt;Notepad++&lt;/code&gt; un ar pogas &lt;code&gt;Up&lt;/code&gt; palīdzību ir jānovieto &lt;code&gt;Notepad++&lt;/code&gt; saraksta augšgalā, tas nodrošinās to, ka pēc noklusējuma, failu rediģēšanas režīmā tiks izmantota tieši šī lietotne.&lt;/p&gt;
+
+&lt;p&gt;Pēc noklusējuma, lietotne &lt;code&gt;Notepad++&lt;/code&gt; tiek uzstādītā sekojošā lietojumu ceļā &lt;code&gt;C:\Program Files\Notepad++&lt;/code&gt;, ja gadījumā lietojuma uzstādīšanas brīdī izvēlējies citu direktoriju, tad to ir nepieciešams norādīt augstāk minētajos nosacījumos.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/wscp-edit.png&quot; alt=&quot;WinSCP failu rediģēšana tiešsaistē&quot; title=&quot;WinSCP failu rediģēšana tiešsaistē&quot; style=&quot;float:left; padding:.5em 1em .5em 0;&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;Tālāk atliek tikai pieslēgties pie servera izmantojot &lt;code&gt;WinSCP&lt;/code&gt; lietojumu un Tu varēsi sākt rediģēt failus attālinātā režīmā. Pēc sekmīgas pieslēgšanās pie attālinātā servera ir nepieciešams izvēlēties failu, kuru jārediģē, tad jāveic labais peles klikšķis uz faila nosaukuma un no iznirstošās izvēlnes ir nepieciešams izvēlēties &lt;code&gt;Edit&lt;/code&gt;, kas atvērs šo failu &lt;code&gt;Notepad++&lt;/code&gt; lietotnē, kur to ir iespējams rediģēt, saglabājot šo failu ar trīs taustiņu kombināciju &lt;code&gt;Ctrl+Alt+S&lt;/code&gt; ir iespējams norādīt jaunu nosaukumu vai vienkārši piespiežot divus taustiņu &lt;code&gt;Ctrl+S&lt;/code&gt;, fails automātiski tiks augšupielādēts un novietots serverī, aizstājot iepriekšējo failu, kas tika sākotnēji atvērts attālinātā rediģēšanas režīmā.&lt;/p&gt;
+
+&lt;p&gt;Šīs lapas kreisajā sadaļā ir redzams attēls, kurā ir parādīts, kāda izskatās iznirstošā izvēlne lietotnē &lt;code&gt;WinSCP&lt;/code&gt;, kurā ir iekrāsota sadaļa &lt;code&gt;Edit&lt;/code&gt;, kas Tev ir jāklikšķina uz faila nosaukuma, ja Tu to vēlies attālināti rediģēt. Šis ir vienkāršs, bet tai pat laikā gana ērts un parocīgs veids, kādā atvieglot ikdienas darbu ar attālinātiem failiem, pie visa tā lietotne &lt;code&gt;Notepad++&lt;/code&gt; lieliski tiek galā arī ar &lt;code&gt;UTF-8&lt;/code&gt; kodējumu, kas mums nodrošina latviešu un krievu valodas simbolus primitīvā tekstā, savukārt &lt;code&gt;Microsof Notepad&lt;/code&gt; parasti rada vairāk problemu nekā labuma ar pareizu faila kodējuma noteikšanu vai konvertāciju.&lt;/p&gt;
+
+&lt;p&gt;Atļaušos atgādināt, lai maksimāli izvairītos no problēmsituācijām, kad tiek pazaudēts stundām vai reizēm pat dienām ilgi ieguldīts darbs, es rekomendēju veidot rezerves kopēšanu pirms sākt rediģēt failus tiešsaistē, tas palīdzēs izvairīties no nevajadzīgiem pārpratumiem un nepatīkamām situācijām, jo šis ir neliels trūkums failu rediģēšanai tiešsaistē, bet savukārt ja Tu rīkosies uzmanīgi un Tev pa rokai būs rezerves kopija no rediģējamā faila, tad gala rezultātā ietaupīsi laiku uz manulālo failu augšupielādēšanu un darbs kļūs patīkamāks, varēsi vairāk koncentrēties uz saturu un mazāk rūpēties par augšupielādi pēc katru izmaiņu izdarīšanas.&lt;/p&gt;
+</description>
+                <link>/university/2011/10/15/darba-vide/</link>
+                <guid>/university/2011/10/15/darba-vide</guid>
+                <pubDate>2011-10-15T10:10:10+00:00</pubDate>
+        </item>
+
+        <item>
+                <title>Padoms visiem Latvijas Universitātes studentiem</title>
+                <description>&lt;p&gt;Visiem &lt;a href=&quot;http://www.lu.lv/eng&quot;&gt;LU&lt;/a&gt; studentiem ir piešķirts &lt;a href=&quot;http://home.lu.lv/&quot;&gt;serveris&lt;/a&gt; uz kura studenti var brīvi un pašrocīgi izmitināt statiskas HTML lapas. Uz servera, priekš studentiem nav nekā cita, kā tikai FTP un HTTP, jebkāda veida skriptēšanas iespējas ir liegtas, izņemot Server Side Include, bet par šo iespēju mums diemžēl neviens neko nepastāstīja. Lai pieslēgtos pie servera ir jāizmanto savs &lt;a href=&quot;http://luis.lu.lv&quot;&gt;luis&lt;/a&gt; autentifikācijas vārds (stud_apl_nr) un parole. Starp citu, FTP servera adrese ir &lt;code&gt;apse.lanet.lv&lt;/code&gt;. Pirms pāris gadiem man tas likās gaužām vecmodīgi, ka &lt;a href=&quot;http://www.lu.lv/eng&quot;&gt;LU&lt;/a&gt; studentiem netiek nodrošināts super moderns serveris ar vismaz &lt;code&gt;PHP&lt;/code&gt; preprocesoru, bet šodien, kad pie rokas ir tāds nezvērs kā &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; man pilnībā pietiek ar šo pašu veco mīļo serverīti, jo tas ir drošāks pret ievainojamībām, nekā tie serveri uz kuriem lietotājiem ir atļauts izmantot dažādas skriptēšanas valodas un arī salīdzinoši atrāks statisku lapu pasniegšanā, jo nekas nav jārēķina, ņem gatavu failu un pa HTTP pūš projām pieprasītājam.&lt;/p&gt;
+
+&lt;p&gt;Ja nu gadījumā kādam interesē, tad par šo serverīti man izdevās iegūt sekojošu papildus informāciju, izantojot attālinātās piekļuves termināla konsoli. Šis uzticamais un ilggadējais serveris izrādās ir pietiekami jaudīgs vēl šodien, pēc saviem garajiem darba gadiem, lai pilnībā veiktu savas ikdienas funkcijas, tas nozīmē tikai to, ka uz &lt;code&gt;IBM&lt;/code&gt; un &lt;code&gt;AIX&lt;/code&gt; mēs varam pilnībā paļauties un uzticēties, jo šis serveris ir gods godam pildījis tam uzticētās funkcijas un stabīli darbojies jau visus pēdējos 10 gadus =]&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; uname -a
+&lt;span class=&quot;go&quot;&gt;AIX apse 3 5 000BFC0D4C00&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; oslevel -r
+&lt;span class=&quot;go&quot;&gt;5300-08&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt; prtconf
+&lt;span class=&quot;go&quot;&gt;System Model: IBM,7028-6C1&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Machine Serial Number: 10BFC0D&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Processor Type: PowerPC_POWER3&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Processor Implementation Mode: POWER 630&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Processor Version: PV_630&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Number Of Processors: 1&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Processor Clock Speed: 375 MHz&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;CPU Type: 64-bit&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Kernel Type: 32-bit&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;LPAR Info: -1 NULL&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Memory Size: 512 MB&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Good Memory Size: 512 MB&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Platform Firmware level: Not Available&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Firmware Version: IBM,CLT05208&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Console Login: enable&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Auto Restart: true&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Full Core: false&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Network Information&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    Host Name: apse&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    IP Address: 195.13.129.120&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    Sub Netmask: 255.255.255.0&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    Gateway: 195.13.129.254&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    Name Server: 195.13.129.5&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    Domain Name: lanet.lv&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Paging Space Information&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    Total Paging Space: 1024MB&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    Percent Used: 6%&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;INSTALLED RESOURCE LIST&lt;/span&gt;
+
+&lt;span class=&quot;go&quot;&gt;The following resources are installed on the machine.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+/- = Added or deleted from Resource List.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;*   = Diagnostic support not available.&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    &lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  Model Architecture: chrp&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;  Model Implementation: Multiple Processor, PCI bus&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    &lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ sys0                       System Object&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ sysplanar0                 System Planar&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;* pci1             P1        PCI Bus&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;* pci0             P1        PCI Bus&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;* isa0             P1        ISA Bus&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ fda0             P1/D1     Standard I/O Diskette Adapter&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ fd0              P1-D1     Diskette Drive&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;* siokma0          P1/K1     Keyboard/Mouse Adapter&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ sioka0           P1/K1     Keyboard Adapter&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ sioma0           P1/K1     Mouse Adapter&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ ppa0             P1/R1     CHRP IEEE1284 (ECP) Parallel Port Adapter&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ sa0              P1/S1     Standard I/O Serial Port&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ tty0             P1/S1-L0  Asynchronous Terminal&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ sa1              P1/S2     Standard I/O Serial Port&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ sa2              P1/S3     Standard I/O Serial Port&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;* ide0             P1/Q1     ATA/IDE Controller Device&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ cd0              P1/Q1-L0  IDE CD-ROM Drive I (650 MB)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ scsi0            P1/Z1     Wide/Ultra-3 SCSI I/O Controller&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ hdisk0           P1/Z1-A0  16 Bit LVD SCSI Disk Drive (18200 MB)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ hdisk1           P1/Z1-A1  16 Bit LVD SCSI Disk Drive (18200 MB)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ safte0           P1/Z1-A9  SCSI Accessed Fault-Tolerant Enclosure Device&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ scsi1            P1/Z2     Wide/Ultra-3 SCSI I/O Controller&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ ent0             P1/E1     IBM 10/100 Mbps Ethernet PCI Adapter (23100020)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ ent1             P1/E2     IBM 10/100 Mbps Ethernet PCI Adapter (23100020)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ L2cache0                   L2 Cache&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ mem0                       Memory&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;+ proc0            P1-C1     Processor&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Fakts, ka tikai nedaudzi &lt;a href=&quot;http://www.lu.lv/eng&quot;&gt;LU&lt;/a&gt; studenti izmanto šo lielisko iespēju, lai izmitinātu savas personīgās, statiskās tīmekļa vietnes ir nedaudz apbēdinošs, laikam jau šis mīļais, labais serverītis tiks reiz norakstīts un izslēgts, bet pagaidām, vēl viss notiek un es iedrošinu jūs visus &lt;a href=&quot;http://www.lu.lv/eng&quot;&gt;LU&lt;/a&gt; studentus pamēģināt un izmitināt savu personīgo tīmekļa vietni, kurā variet apkopot un uzgalbāt vērtīgu informāciju par studiju laikā gūtjām zināšanām. Tīmekļa vietnes publiskā adrese būs &lt;code&gt;http://home.lu.lv/~stud_apl_nr&lt;/code&gt; manā gadījumā tas ir &lt;code&gt;http://home.lu.lv/~tv10012&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Lai izmitinātu savu tīmekļa vietni uz servera &lt;code&gt;apse.lanet.lv&lt;/code&gt; lietotāja mājas direktorijā ir jāzveido jauna direktorija ar nosaukumu &lt;code&gt;public_html&lt;/code&gt; un šai direktorijā ir jāievieto savas tīmekļa vietnes saturs, lai to izdarītu ir nepieciešams izmantot kādu mūsdienīgu FTP klientu, kas ļauj pieslēgties pie servera pa &lt;code&gt;SCP&lt;/code&gt; protokolu, es rekomendēju &lt;a href=&quot;http://winscp.net&quot;&gt;WinSCP&lt;/a&gt;, ko var brīvi lejupielādēt un darbināt uz savas darba stacijas. Tas arī ir viss, ko es vēlējos pateikt tiem &lt;a href=&quot;http://www.lu.lv/eng&quot;&gt;LU&lt;/a&gt; studentiem kuri vai nu ir aizmirsuši vai vēl nezina par šo lielisko iespēju, kā izmitināt personīgās studentu tīmekļa vietnes uz &lt;a href=&quot;http://www.lu.lv/eng&quot;&gt;LU&lt;/a&gt; publiskā servera.&lt;/p&gt;
+
+&lt;p&gt;p.s.&lt;/p&gt;
+
+&lt;p&gt;Papildus iespēja, ko nodrošina šis serveris ir iespēja izmantot epasta pāradresāciju, jo katram &lt;a href=&quot;http://www.lu.lv/eng&quot;&gt;LU&lt;/a&gt; studentam ir arī piešķirta viņam unikālā epasta adrese &lt;code&gt;stud_apl_nr@lu.lv&lt;/code&gt;, bet ne visi studenti šo epasta adresi izmanto un bieži vien pat nezin, ka šāda adrese eksistē, savukārt augšupielādējot uz serveri, lietotāja mājas direktorijā failu ar nosaukumu &lt;code&gt;.forward&lt;/code&gt; un faila saturā ierakstot savu epasta adresi, visi ienākošie epasti tiks automātiski pārsūtīti uz tavu norādīto epastu.&lt;/p&gt;
+
+&lt;p&gt;Vēlu veiksmi, lai Tev viss labi izdodās,&lt;/br&gt;
+Toms&lt;/p&gt;
+</description>
+                <link>/university/2011/10/14/notes-for-lu-students/</link>
+                <guid>/university/2011/10/14/notes-for-lu-students</guid>
+                <pubDate>2011-10-14T10:10:10+00:00</pubDate>
+        </item>
+
+
+</channel>
+</rss>

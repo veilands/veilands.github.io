@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title></title>
+  <link href="http://tomsys.us/atom.xml" rel="self" />
+  <link href="http://tomsys.us" />
+  <updated>2013-10-18T12:00:02+00:00</updated>
+  <id>http://tomsys.us</id>
+  <author>
+    <name>Toms VEILANDS</name>
+    <email>veilands@gmail.com</email>
+  </author>
+  <rights>Copyright (c) Toms VEILANDS</rights>
+  
+  <entry>
+    <id>http://tomsys.us/university/2011/10/16/autentifikacija</id>
+    <title>Primitīvs Lietotāja Autentifikācijas Piemērs</title>
+    <link href="http://tomsys.us/university/2011/10/16/autentifikacija/" />
+    <published>2011-10-16T10:10:10+00:00</published>
+    
+    <summary type="html">&lt;p&gt;Vienā no mācību priekšmetiem mums bija jārealizē uzdevums, kur tiek veikta lietotāja autentifikācija un pie sekmīga rezultāta lietotājs tiek autorizēts piekļūt tīmekļa vietnes sadaļai, kas ir paredzēta tikai autentificētiem lietotājiem, piemēram vietnes satura administratoriem. Tā kā mani kursa biedri bija aktīvi uzdodot jautājumus par to, kā tas viss notiek un strādā, tad zemāk ir vienkāršots &lt;code&gt;PHP&lt;/code&gt; koda paraugs, kurus vari pārskatīt un brīvi izmantot savām vajadzībām.&lt;/p&gt;
+</summary>
+    
+  </entry>
+  
+  <entry>
+    <id>http://tomsys.us/university/2011/10/15/darba-vide</id>
+    <title>Darba vide priekš tīmekļa vietnes attālinātas rediģēšanas</title>
+    <link href="http://tomsys.us/university/2011/10/15/darba-vide/" />
+    <published>2011-10-15T10:10:10+00:00</published>
+    
+    <summary type="html">&lt;p&gt;Pirms mesties un izpildīt kādu no laboratorijas darbiem, lai kurā mācību priekšmetā tas arī nebūtu, es rekomendēju izmantot katram darbam atbilstošākus instrumentus, piemēram, ja Tev pēc katra faila rediģēšanas tas vēl ir atsevišķi jāpārsūta caur FTP klientu uz serveri, tas kopumā aizņems papildus laiku un pareizi organizējot savu darba vidi ir iespējams šo lietu nedaudz automatizēt, tas neprasīs vienā reizē vairāk kā 10 minūtes, lai sagatavotu darba vidi, savukārt nākotnē būs ērtāk un patīkamāk strādāt, veidojot tīmekļa vietnes un papildinot tās ar jaunu saturu.&lt;/p&gt;
+</summary>
+    
+  </entry>
+  
+  <entry>
+    <id>http://tomsys.us/university/2011/10/14/notes-for-lu-students</id>
+    <title>Padoms visiem Latvijas Universitātes studentiem</title>
+    <link href="http://tomsys.us/university/2011/10/14/notes-for-lu-students/" />
+    <published>2011-10-14T10:10:10+00:00</published>
+    
+    <summary type="html">&lt;p&gt;Visiem &lt;a href=&quot;http://www.lu.lv/eng&quot;&gt;LU&lt;/a&gt; studentiem ir piešķirts &lt;a href=&quot;http://home.lu.lv/&quot;&gt;serveris&lt;/a&gt; uz kura studenti var brīvi un pašrocīgi izmitināt statiskas HTML lapas. Uz servera, priekš studentiem nav nekā cita, kā tikai FTP un HTTP, jebkāda veida skriptēšanas iespējas ir liegtas, izņemot Server Side Include, bet par šo iespēju mums diemžēl neviens neko nepastāstīja. Lai pieslēgtos pie servera ir jāizmanto savs &lt;a href=&quot;http://luis.lu.lv&quot;&gt;luis&lt;/a&gt; autentifikācijas vārds (stud_apl_nr) un parole. Starp citu, FTP servera adrese ir &lt;code&gt;apse.lanet.lv&lt;/code&gt;. Pirms pāris gadiem man tas likās gaužām vecmodīgi, ka &lt;a href=&quot;http://www.lu.lv/eng&quot;&gt;LU&lt;/a&gt; studentiem netiek nodrošināts super moderns serveris ar vismaz &lt;code&gt;PHP&lt;/code&gt; preprocesoru, bet šodien, kad pie rokas ir tāds nezvērs kā &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; man pilnībā pietiek ar šo pašu veco mīļo serverīti, jo tas ir drošāks pret ievainojamībām, nekā tie serveri uz kuriem lietotājiem ir atļauts izmantot dažādas skriptēšanas valodas un arī salīdzinoši atrāks statisku lapu pasniegšanā, jo nekas nav jārēķina, ņem gatavu failu un pa HTTP pūš projām pieprasītājam.&lt;/p&gt;
+</summary>
+    
+  </entry>
+  
+</feed>
